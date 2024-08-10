@@ -6,6 +6,7 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
+  animated_theme_switcher: ^2.0.10
   cupertino_icons: ^1.0.6
   dio: ^5.4.0
   flutter:

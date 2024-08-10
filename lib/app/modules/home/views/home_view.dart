@@ -1,35 +1,39 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:quranringkas/app/contants/colour.dart';
 import 'package:quranringkas/app/data/model/juz.dart' as juz;
 import 'package:quranringkas/app/modules/home/views/tnc.dart';
 import 'package:quranringkas/app/routes/app_pages.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../data/model/surah.dart';
+import '../../../general/appColors.dart';
+import '../../../general/appTextStyles.dart';
+import '../../../general/appThemes.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (Get.isDarkMode) {
-      controller.isDark.value = true;
-    }
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () => controller.changeThemeMode(),
-            icon: Obx(
-              () => controller.isDark.isTrue
-                  ? const Icon(Icons.dark_mode)
-                  : const Icon(Icons.light_mode),
-            ),
-          ),
+          ThemeSwitcher(
+                builder: (context) => Obx(() => IconButton(
+                      icon: controller.isDarkMode.value
+                          ? Icon(CupertinoIcons.brightness)
+                          : Icon(
+                              CupertinoIcons.moon_stars,
+                              color: AppColors().kBlackColor,
+                            ),
+                      onPressed: () {
+                        controller.changeTheme(context);
+                      },
+                    )))
         ],
         title: Text(
           "Quran Ringkas",
@@ -40,7 +44,7 @@ class HomeView extends GetView<HomeController> {
       ),
       // Tambahkan GetDrawer di sini
       drawer: Drawer(
-        backgroundColor: Get.isDarkMode ? darkblue : putih,
+        // backgroundColor: Get.isDarkMode ? darkblue : putih,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -186,25 +190,19 @@ class HomeView extends GetView<HomeController> {
       body: DefaultTabController(
         length: 3,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 20),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Assalamu'alaikum",
-              style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: Get.isDarkMode ? putih : darkblue),
+              style:AppTextStyles().kTextStyle18WithThemeColor
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
               "Calon Penghuni Surga",
-              style: GoogleFonts.poppins(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800,
-                  color: Get.isDarkMode ? putih : darkblue),
+              style:AppTextStyles().kTextStyle28WithThemeColor
             ),
             const SizedBox(height: 18),
             GetBuilder<HomeController>(

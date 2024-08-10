@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,26 +13,54 @@ import 'package:quranringkas/app/data/model/surah.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../general/appThemes.dart';
+import '../../../general/getStorageKey.dart';
+
 class HomeController extends GetxController {
-  RxBool isDark = false.obs;
+  // RxBool isDark = false.obs;
   final Uri _url = Uri.parse('https://spektrumku.com');
   final Uri _url2 =
       Uri.parse('https://play.google.com/store/apps/details?id=com.spektrumku');
 
-  void changeThemeMode() async {
-    Get.isDarkMode ? Get.changeTheme(themeLight) : Get.changeTheme(themeDark);
-    isDark.toggle();
+  late final GetStorage _getStorage;
+  var isDarkMode = false.obs;
 
-    Get.find<HomeController>().update();
+  void onInit() {
+    super.onInit();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
+    _getStorage = GetStorage();
+    isDarkMode.value = _getStorage.read(GetStorageKey.IS_DARK_MODE);
+  }
 
-    final box = GetStorage();
-
-    if (Get.isDarkMode) {
-      await box.remove("themeDark");
+  void changeTheme(BuildContext context) {
+    final theme =
+        Get.isDarkMode ? AppThemes.lightThemeData : AppThemes.darkThemeData;
+    ThemeSwitcher.of(context).changeTheme(theme: theme);
+    if (_getStorage.read(GetStorageKey.IS_DARK_MODE)) {
+      _getStorage.write(GetStorageKey.IS_DARK_MODE, false);
+      isDarkMode.value = false;
     } else {
-      await box.write("themeDark", true);
+      _getStorage.write(GetStorageKey.IS_DARK_MODE, true);
+      isDarkMode.value = true;
     }
   }
+
+  // void changeThemeMode() async {
+  //   Get.isDarkMode ? Get.changeTheme(themeLight) : Get.changeTheme(themeDark);
+  //   isDark.toggle();
+
+  //   Get.find<HomeController>().update();
+
+  //   final box = GetStorage();
+
+  //   if (Get.isDarkMode) {
+  //     await box.remove("themeDark");
+  //   } else {
+  //     await box.write("themeDark", true);
+  //   }
+  // }
 
   Future<void> goUrl() async {
     if (!await launchUrl(_url, mode: LaunchMode.inAppWebView)) {
@@ -40,7 +69,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> goUrl2() async {
-    if (!await launchUrl(_url2, mode: LaunchMode.externalNonBrowserApplication)) {
+    if (!await launchUrl(_url2,
+        mode: LaunchMode.externalNonBrowserApplication)) {
       throw Exception('Could not launch $_url');
     }
   }

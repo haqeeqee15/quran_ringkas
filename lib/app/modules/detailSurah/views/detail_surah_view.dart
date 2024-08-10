@@ -4,10 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:quranringkas/app/contants/colour.dart';
 import 'package:quranringkas/app/data/model/detailsurah.dart' as detail;
-import 'package:quranringkas/app/data/model/surah.dart';
 import 'package:quranringkas/app/modules/home/controllers/home_controller.dart';
+import '../../../general/appThemes.dart';
 import '../controllers/detail_surah_controller.dart';
 
 class DetailSurahView extends GetView<DetailSurahController> {

@@ -10,6 +10,8 @@ import 'package:quranringkas/app/contants/colour.dart';
 import 'package:quranringkas/app/data/db/markah_db.dart';
 import 'package:quranringkas/app/data/model/detailsurah.dart';
 
+import '../../../general/appThemes.dart';
+
 class DetailSurahController extends GetxController {
   AutoScrollController scrollC = AutoScrollController();
   final player = AudioPlayer();

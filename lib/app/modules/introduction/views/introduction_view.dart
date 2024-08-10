@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quranringkas/app/contants/colour.dart';
 import 'package:quranringkas/app/routes/app_pages.dart';
 
+import '../../../general/appThemes.dart';
 import '../controllers/introduction_controller.dart';
 
 class IntroductionView extends GetView<IntroductionController> {

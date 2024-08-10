@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import 'package:quranringkas/app/general/appThemes.dart';
 
 import '../../../contants/colour.dart';
 import '../../../data/model/juz.dart' as juz;
